@@ -24,7 +24,11 @@ class IsArray {
         if (!$flag) {
             // with all index
             foreach ($this->data as $data_v) {
-                $array[] = $this->array_with_all_index($data_v, $keys);
+                if($this->contains_array($data_v)){
+                    $array[] = $this->array_with_array_indexing($data_v, $keys);
+                } else {
+                    $array[] = $this->array_with_all_index($data_v, $keys);
+                }
             }
         } else {
             // without old index
@@ -35,11 +39,46 @@ class IsArray {
         $this->data = $array;
         return $this->data;
     }
+    private function array_with_array_indexing(array $arr, $keys) {
+        $depthKey = '';
+        $depthArray = '';
+        $new_key = '';
+        $old_key = '';
+        $firstArray = $this->array_with_all_index($arr, $keys);
+        if($this->contains_array($keys)){
+            foreach ($keys as $n_key => $k){
+                if(is_array($k)){
+                    $new_key = $n_key;
+                    $depthKey = $k;
+                }
+            }
+        } else {
+            $depthKey = $keys;
+        }
+        foreach ($arr as $o_key => $a){
+            if(is_array($a)){
+                $old_key = $o_key;
+                $depthArray = $a;
+            }
+        }
+        $secondArray = $this->array_with_all_index($depthArray, $depthKey);
+        if($old_key == $new_key){
+            $firstArray[$new_key] = $secondArray;
+        } else {
+            if (array_key_exists($old_key, $firstArray)) {
+                $firstArray[$new_key] = $secondArray;
+                unset($firstArray[$old_key]);
+            }
+        }
+        return $firstArray;
+    }
 
     private function array_with_all_index(array $arr, $keys) {
         if(!$keys)
             return $arr;
          foreach ($keys as $old_key => $new_key) {
+             if(is_array($new_key))
+                 break;
              if (array_key_exists($old_key, $arr)) {
                  $arr[$new_key] = $arr[$old_key];
                  unset($arr[$old_key]);
@@ -53,6 +92,8 @@ class IsArray {
         if(!$keys)
             return $arr;
         foreach ($keys as $old_key => $new_key) {
+            if(is_array($new_key))
+                 break;
             if (array_key_exists($old_key, $arr)) {
                 $temp[$new_key] = $arr[$old_key];
             }
