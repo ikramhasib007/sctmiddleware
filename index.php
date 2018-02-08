@@ -30,12 +30,14 @@
         $arr = [
             'uid'=>'serial',
             'task_id'=>'task_serial',
-            'masch_id'=>'machine_number',
+//            'masch_id'=>'machine_number',
             'week_year'=>'week_number',
             'date'=>'updated_date',
-//            'mydata' => array(
-//                'old'=> 'new'
-//            )
+            'mydata' => array(
+                'is_active'=> 'satus',
+                'input_value'=> 'value',
+                'masch_id'=>'machine_number',
+            )
         ];
         
 //	$obj->setKey('uid','serial');
