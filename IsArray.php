@@ -3,13 +3,12 @@
 /**
  * 
  */
-class IsArray extends Middleware {
+class IsArray {
 
     protected $data;
     protected $keys;
 
     function __construct(array $middleware) {
-        parent::__construct();
         $this->data = $middleware;
     }
 
@@ -21,61 +20,53 @@ class IsArray extends Middleware {
 
     public function encode_process($flag = false) {
         $array = array();
-        $i = 0;
         if (!$flag) {
             // with old index
             foreach ($this->data as $data_v) {
-                foreach ($this->keys as $old_key => $new_key) {
-                    if (array_key_exists($old_key, $data_v)) {
-                        $data_v[$new_key] = $data_v[$old_key];
-                        unset($data_v[$old_key]);
-                    }
-                }
-                $array[] = $data_v;
+                $array[] = $this->array_with_all_index($data_v);
             }
         } else {
             // without old index
             foreach ($this->data as $data_v) {
-                foreach ($data_v as $key => $value) {
-                    foreach ($this->keys as $old_key => $new_key) {
-                        if ($old_key == $key) {
-                            $array[$i][$new_key] = $value;
-                        }
-                    }
-                }
-                $i++;
+                $array[] = $this->array_with_new_index($data_v);
             }
         }
         $this->data = $array;
         return $this->data;
     }
-    
+
+    private function array_with_all_index(array $arr) {
+        foreach ($this->keys as $old_key => $new_key) {
+            if (array_key_exists($old_key, $arr)) {
+                $arr[$new_key] = $arr[$old_key];
+                unset($arr[$old_key]);
+            }
+        }
+        return $arr;
+    }
+
+    private function array_with_new_index(array $arr) {
+        $temp = array();
+        foreach ($this->keys as $old_key => $new_key) {
+            if (array_key_exists($old_key, $arr)) {
+                $temp[$new_key] = $arr[$old_key];
+            }
+        }
+        return $temp;
+    }
+
     public function decode_process($flag = false) {
         $array = array();
-        $i = 0;
         $this->keys = array_flip($this->keys);
         if (!$flag) {
             // with old index
             foreach ($this->data as $data_v) {
-                foreach ($this->keys as $old_key => $new_key) {
-                    if (array_key_exists($old_key, $data_v)) {
-                        $data_v[$new_key] = $data_v[$old_key];
-                        unset($data_v[$old_key]);
-                    }
-                }
-                $array[] = $data_v;
+                $array[] = $this->array_with_all_index($data_v);
             }
         } else {
             // without old index
             foreach ($this->data as $data_v) {
-                foreach ($this->keys as $old_key => $new_key) {
-                    foreach ($data_v as $key => $value) {
-                        if ($old_key == $key) {
-                            $array[$i][$new_key] = $value;
-                        }
-                    }
-                }
-                $i++;
+                $array[] = $this->array_with_new_index($data_v);
             }
         }
         $this->data = $array;

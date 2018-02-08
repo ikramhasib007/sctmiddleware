@@ -12,9 +12,14 @@
 	$sql = 'SELECT * FROM t_tpm_data LIMIT 10';
 	$result = mysqli_query($con, $sql);
 	$rows = [];
-
+        $i = 1;
 	while ($r = mysqli_fetch_assoc($result)) {
-		$rows[] = $r;
+//            if(!($i%2==0)){
+                $rows[$i] = $r; 
+//            } else{
+//                $rows[$i-1]['mydata'] = $r; 
+//            }
+            $i++;
 	}
         
 //        echo '<pre>';
@@ -28,13 +33,8 @@
             'masch_id'=>'machine_number',
             'week_year'=>'week_number',
             'date'=>'updated_date',
-//            'other' => array(
-//                'old'=> 'new',
-//                'other2' => array(
-//                    'old'=> 'new'
-//
-//                )
-//                
+//            'mydata' => array(
+//                'old'=> 'new'
 //            )
         ];
         

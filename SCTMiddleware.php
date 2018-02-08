@@ -11,7 +11,6 @@ require 'Middleware.php';
 class SCTMiddleware extends Middleware {
     
     protected $keys = [];
-    
 
     public function setKey($key, $value) {
         $this->keys[$key] = $value;
