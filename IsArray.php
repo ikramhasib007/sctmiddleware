@@ -20,25 +20,26 @@ class IsArray {
 
     public function encode_process($flag = false) {
         $array = array();
+        $keys = $this->keys;
         if (!$flag) {
             // with all index
             foreach ($this->data as $data_v) {
-                $array[] = $this->array_with_all_index($data_v);
+                $array[] = $this->array_with_all_index($data_v, $keys);
             }
         } else {
             // without old index
             foreach ($this->data as $data_v) {
-                $array[] = $this->array_with_new_index($data_v);
+                $array[] = $this->array_with_new_index($data_v, $keys);
             }
         }
         $this->data = $array;
         return $this->data;
     }
 
-    private function array_with_all_index(array $arr) {
-        if(!$this->keys)
+    private function array_with_all_index(array $arr, $keys) {
+        if(!$keys)
             return $arr;
-         foreach ($this->keys as $old_key => $new_key) {
+         foreach ($keys as $old_key => $new_key) {
              if (array_key_exists($old_key, $arr)) {
                  $arr[$new_key] = $arr[$old_key];
                  unset($arr[$old_key]);
@@ -47,11 +48,11 @@ class IsArray {
          return $arr;
     }
 
-    private function array_with_new_index(array $arr) {
+    private function array_with_new_index(array $arr, $keys) {
         $temp = array();
-        if(!$this->keys)
+        if(!$keys)
             return $arr;
-        foreach ($this->keys as $old_key => $new_key) {
+        foreach ($keys as $old_key => $new_key) {
             if (array_key_exists($old_key, $arr)) {
                 $temp[$new_key] = $arr[$old_key];
             }
@@ -61,17 +62,19 @@ class IsArray {
 
     public function decode_process($flag = false) {
         $array = array();
-        if($this->keys)
-            $this->keys = array_flip($this->keys);
+        $keys = $this->keys;
+        if($keys){
+            $keys = array_flip($keys);
+        }
         if (!$flag) {
             // with all index
             foreach ($this->data as $data_v) {
-                $array[] = $this->array_with_all_index($data_v);
+                $array[] = $this->array_with_all_index($data_v, $keys);
             }
         } else {
             // without old index
             foreach ($this->data as $data_v) {
-                $array[] = $this->array_with_new_index($data_v);
+                $array[] = $this->array_with_new_index($data_v, $keys);
             }
         }
         $this->data = $array;
