@@ -33,7 +33,11 @@ class IsArray {
         } else {
             // without old index
             foreach ($this->data as $data_v) {
-                $array[] = $this->array_with_new_index($data_v, $keys);
+                if($this->contains_array($data_v)){
+                    $array[] = $this->array_with_array_new_indexing($data_v, $keys);
+                } else {
+                    $array[] = $this->array_with_new_index($data_v, $keys);
+                }
             }
         }
         $this->data = $array;
@@ -44,7 +48,7 @@ class IsArray {
         $depthArray = '';
         $new_key = '';
         $old_key = '';
-        $firstArray = $this->array_with_all_index($arr, $keys);
+        $array = $this->array_with_all_index($arr, $keys);
         foreach ($arr as $o_key => $a){
             if(is_array($a)){
                 $old_key = $o_key;
@@ -65,14 +69,49 @@ class IsArray {
         
         $secondArray = $this->array_with_all_index($depthArray, $depthKey);
         if($old_key == $new_key){
-            $firstArray[$new_key] = $secondArray;
+            $array[$new_key] = $secondArray;
         } else {
-            if (array_key_exists($old_key, $firstArray)) {
-                $firstArray[$new_key] = $secondArray;
-                unset($firstArray[$old_key]);
+            if (array_key_exists($old_key, $array)) {
+                $array[$new_key] = $secondArray;
+                unset($array[$old_key]);
             }
         }
-        return $firstArray;
+        return $array;
+    }
+    private function array_with_array_new_indexing(array $arr, $keys) {
+        $depthKey = '';
+        $depthArray = '';
+        $new_key = '';
+        $old_key = '';
+        $array = $this->array_with_new_index($arr, $keys);
+        foreach ($arr as $o_key => $a){
+            if(is_array($a)){
+                $old_key = $o_key;
+                $depthArray = $a;
+            }
+        }
+        if($this->contains_array($keys)){
+            foreach ($keys as $n_key => $k){
+                if(is_array($k)){
+                    $new_key = $n_key;
+                    $depthKey = $k;
+                }
+            }
+        } else {
+            $new_key = $old_key;
+            $depthKey = $keys;
+        }
+        
+        $secondArray = $this->array_with_new_index($depthArray, $depthKey);
+        if($old_key == $new_key){
+            $array[$new_key] = $secondArray;
+        } else {
+            if (array_key_exists($old_key, $array)) {
+                $array[$new_key] = $secondArray;
+                //unset($array[$old_key]);
+            }
+        }
+        return $array;
     }
 
     private function array_with_all_index(array $arr, $keys) {
