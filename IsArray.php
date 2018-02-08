@@ -36,6 +36,8 @@ class IsArray {
     }
 
     private function array_with_all_index(array $arr) {
+        if(!$this->keys)
+            return $arr;
         foreach ($this->keys as $old_key => $new_key) {
             if (array_key_exists($old_key, $arr)) {
                 $arr[$new_key] = $arr[$old_key];
@@ -47,6 +49,8 @@ class IsArray {
 
     private function array_with_new_index(array $arr) {
         $temp = array();
+        if(!$this->keys)
+            return $arr;
         foreach ($this->keys as $old_key => $new_key) {
             if (array_key_exists($old_key, $arr)) {
                 $temp[$new_key] = $arr[$old_key];
@@ -57,7 +61,8 @@ class IsArray {
 
     public function decode_process($flag = false) {
         $array = array();
-        $this->keys = array_flip($this->keys);
+        if($this->keys)
+            $this->keys = array_flip($this->keys);
         if (!$flag) {
             // with old index
             foreach ($this->data as $data_v) {

@@ -14,11 +14,11 @@
 	$rows = [];
         $i = 1;
 	while ($r = mysqli_fetch_assoc($result)) {
-//            if(!($i%2==0)){
+            if(!($i%2==0)){
                 $rows[$i] = $r; 
-//            } else{
-//                $rows[$i-1]['mydata'] = $r; 
-//            }
+            } else{
+                $rows[$i-1]['mydata'] = $r; 
+            }
             $i++;
 	}
         
