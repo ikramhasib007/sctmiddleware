@@ -45,6 +45,12 @@ class IsArray {
         $new_key = '';
         $old_key = '';
         $firstArray = $this->array_with_all_index($arr, $keys);
+        foreach ($arr as $o_key => $a){
+            if(is_array($a)){
+                $old_key = $o_key;
+                $depthArray = $a;
+            }
+        }
         if($this->contains_array($keys)){
             foreach ($keys as $n_key => $k){
                 if(is_array($k)){
@@ -53,14 +59,10 @@ class IsArray {
                 }
             }
         } else {
+            $new_key = $old_key;
             $depthKey = $keys;
         }
-        foreach ($arr as $o_key => $a){
-            if(is_array($a)){
-                $old_key = $o_key;
-                $depthArray = $a;
-            }
-        }
+        
         $secondArray = $this->array_with_all_index($depthArray, $depthKey);
         if($old_key == $new_key){
             $firstArray[$new_key] = $secondArray;
