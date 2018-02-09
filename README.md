@@ -7,6 +7,8 @@ Data driven middleware.
 
 <b>Documentation</b> 
 <p>Create an object of SCTMiddleware class</p>
+<pre>$obj = new SCTMiddleware;
+</pre>
 
 <b>setKey and setKeys function:</b>
 <pre>
