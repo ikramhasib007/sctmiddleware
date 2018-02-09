@@ -1,20 +1,23 @@
 ## SCTMiddleware
 Data driven middleware.
 
-#Documentation 
-Create an object of SCTMiddleware class
+<b>Documentation</b> 
+<p>Create an object of SCTMiddleware class</p>
 
-#setKey and setKeys function:
-setKey('oldKey', 'newKey');
+<b>setKey and setKeys function:</b>
+<pre>
+setKey('oldKey', 'newKey');</br>
 setKeys($array);
-
-#processing and reprocess function:
-processing($array);
+</pre>
+<b>process and reprocess function:</b>
+<pre>
+process($array);</br>
 reprocess($array);
-
-#Get processing data called a function named response()
+</pre>
+<b>Get processed data called a function named response()</b>
 
 Say for you data:
+<pre>
 $rows = array(
   [0] = array (
     [id] = 001
@@ -25,21 +28,22 @@ $rows = array(
     [name] = John Doe
   )
 );
-
+</pre>
 set key property which you want.
-example: $obj->setKey('id', 'serial_no');
+example: <pre>$obj->setKey('id', 'serial_no');</pre>
 Or you may an array for keys: 
+<pre>
 $array = [
   'id' => 'serial_no',
   'name' => 'fullname'
 ];
-
-Then $obj->setKeys($array);
-$obj->processing($rows);
-echo '<pre>';
+</pre>
+Then <pre>$obj->setKeys($array);
+$obj->process($rows);
 print_r($obj->response());
-
-Output:
+</pre>
+<b>Output:</b>
+<pre>
 $rows = array(
   [0] = array (
     [serial_no] = 001
@@ -50,13 +54,14 @@ $rows = array(
     [fullname] = John Doe
   )
 );
-
-#reprocess:
-$obj->reprocess(processing result);
-echo '<pre>';
+</pre>
+<b>reprocess:</b>
+<pre>
+$obj->reprocess(process result);
 print_r($obj->response());
-
-Output:
+</pre>
+<b>Output:</b>
+<pre>
 $rows = array(
   [0] = array (
     [id] = 001
@@ -67,3 +72,4 @@ $rows = array(
     [name] = John Doe
   )
 );
+</pre>
