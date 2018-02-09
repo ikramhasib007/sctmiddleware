@@ -37,7 +37,7 @@ abstract class Middleware {
         }
     }
     
-    public function reprocessing($agrs, $flag = false) {
+    public function reprocess($agrs, $flag = false) {
         $this->argumentType($agrs);
         if ($this->isArray) {
             $this->obj = new IsArray($agrs);
