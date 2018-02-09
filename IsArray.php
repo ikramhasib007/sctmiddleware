@@ -48,11 +48,21 @@ class IsArray {
         $depthArray = '';
         $new_key = '';
         $old_key = '';
+        $indexedArray = FALSE;
+        $numberOfIndexedArray = '';
         $array = $this->array_with_all_index($arr, $keys);
         foreach ($arr as $o_key => $a){
             if(is_array($a)){
+                if(array_key_exists(0, $a)){
+                    // indexed array
+                    $indexedArray = TRUE;
+                    $numberOfIndexedArray = count($a);
+                    $depthArray = $a;
+                } else {
+                    //not index array. it's direct array
+                    $depthArray = $a;
+                }
                 $old_key = $o_key;
-                $depthArray = $a;
             }
         }
         if($this->contains_array($keys)){
@@ -66,8 +76,15 @@ class IsArray {
             $new_key = $old_key;
             $depthKey = $keys;
         }
-        
-        $secondArray = $this->array_with_all_index($depthArray, $depthKey);
+        if($indexedArray){
+            foreach ($depthArray as $d_key => $depthA){
+                // iteration of all indexed array
+                $secondArray[$d_key] = $this->array_with_all_index($depthA, $depthKey);
+            }
+        } else {
+            // iteration of associative array
+            $secondArray = $this->array_with_all_index($depthArray, $depthKey);
+        }
         if($old_key == $new_key){
             $array[$new_key] = $secondArray;
         } else {
@@ -83,11 +100,21 @@ class IsArray {
         $depthArray = '';
         $new_key = '';
         $old_key = '';
+        $indexedArray = FALSE;
+        $numberOfIndexedArray = '';
         $array = $this->array_with_new_index($arr, $keys);
         foreach ($arr as $o_key => $a){
             if(is_array($a)){
+                if(array_key_exists(0, $a)){
+                    // indexed array
+                    $indexedArray = TRUE;
+                    $numberOfIndexedArray = count($a);
+                    $depthArray = $a;
+                } else {
+                    //not index array. it's direct array
+                    $depthArray = $a;
+                }
                 $old_key = $o_key;
-                $depthArray = $a;
             }
         }
         if($this->contains_array($keys)){
@@ -102,7 +129,15 @@ class IsArray {
             $depthKey = $keys;
         }
         
-        $secondArray = $this->array_with_new_index($depthArray, $depthKey);
+        if($indexedArray){
+            foreach ($depthArray as $d_key => $depthA){
+                // iteration of all indexed array
+                $secondArray[$d_key] = $this->array_with_new_index($depthA, $depthKey);
+            }
+        } else {
+            // iteration of associative array
+            $secondArray = $this->array_with_new_index($depthArray, $depthKey);
+        }
         if($old_key == $new_key){
             $array[$new_key] = $secondArray;
         } else {
