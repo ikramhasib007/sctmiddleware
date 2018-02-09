@@ -1,6 +1,10 @@
 ## SCTMiddleware
 Data driven middleware.
 
+<b>Developed By</b>
+<p>Ikram - Ud - Daula</p>
+<p>Software Developer, SCT-Technology GmbH</p><br>
+
 <b>Documentation</b> 
 <p>Create an object of SCTMiddleware class</p>
 
