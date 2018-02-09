@@ -4,23 +4,8 @@
 	* 
 	*/
 	require 'SCTMiddleware.php';
-
-	$con = mysqli_connect('localhost', 'root','', 'rawphp');
-	if(!$con)
-		die('Connection error. '.mysqli_errno());
-
-	$sql = 'SELECT * FROM t_tpm_data LIMIT 10';
-	$result = mysqli_query($con, $sql);
-	$rows = [];
-        $i = 1;
-	while ($r = mysqli_fetch_assoc($result)) {
-            if(!($i%2==0)){
-                $rows[$i] = $r; 
-            } else{
-                $rows[$i-1]['mydata'] = $r; 
-            }
-            $i++;
-	}
+        
+        $rows = json_decode(file_get_contents('sampledata/array_1.php'),TRUE);
         
 //        echo '<pre>';
 //        print_r($rows);
@@ -30,13 +15,14 @@
         $arr = [
             'uid'=>'serial',
             'task_id'=>'task_serial',
-//            'masch_id'=>'machine_number',
+            'masch_id'=>'masch_id',
             'week_year'=>'week_number',
             'date'=>'updated_date',
             'mydata' => array(
                 'is_active'=> 'satus',
                 'input_value'=> 'value',
                 'masch_id'=>'machine_number',
+                'task_id'=>'task_id',
             )
         ];
         
@@ -47,10 +33,8 @@
 //	
         $obj->setKeys($arr);
         
-        $obj->encode($rows);
-        //$obj->decode($obj->response(), true);
-//        exit();
-	//$obj->setKeys();
+        $obj->process($rows);
+        //$obj->reprocess($obj->response(), TRUE);
 
 	echo "<pre>";
 	print_r($obj->response());

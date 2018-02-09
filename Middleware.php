@@ -24,7 +24,7 @@ abstract class Middleware {
         $this->isNull = false;
     }
 
-    public function processing($agrs, $flag = false) {
+    public function process($agrs, $flag = false) {
         $this->argumentType($agrs);
         if ($this->isArray) {
             $this->obj = new IsArray($agrs);

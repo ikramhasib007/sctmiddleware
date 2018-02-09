@@ -24,6 +24,8 @@ class IsArray {
         if (!$flag) {
             // with all index
             foreach ($this->data as $data_v) {
+//                echo $this->array_depth($data_v);
+//                exit();
                 if($this->contains_array($data_v)){
                     $array[] = $this->array_with_array_indexing($data_v, $keys);
                 } else {
@@ -95,6 +97,7 @@ class IsArray {
         }
         return $array;
     }
+    
     private function array_with_array_new_indexing(array $arr, $keys) {
         $depthKey = '';
         $depthArray = '';
@@ -221,13 +224,29 @@ class IsArray {
         return $this->data;
     }
     
-    public function contains_array($array){
+    private function contains_array($array){
         foreach($array as $value){
             if(is_array($value)) {
               return true;
             }
         }
         return false;
+    }
+    
+    private function array_depth(array $array) {
+        $max_depth = 1;
+
+        foreach ($array as $value) {
+            if (is_array($value)) {
+                $depth = array_depth($value) + 1;
+
+                if ($depth > $max_depth) {
+                    $max_depth = $depth;
+                }
+            }
+        }
+
+        return $max_depth;
     }
 
     public function __toString() {
