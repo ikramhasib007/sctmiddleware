@@ -18,7 +18,7 @@ class IsArray {
         }
     }
 
-    public function encode_process($flag = false) {
+    public function processed($flag = false) {
         $array = array();
         $keys = $this->keys;
         if (!$flag) {
@@ -122,7 +122,8 @@ class IsArray {
                  break;
              if (array_key_exists($old_key, $arr)) {
                  $arr[$new_key] = $arr[$old_key];
-                 unset($arr[$old_key]);
+                 if($old_key != $new_key)
+                    unset($arr[$old_key]);
              }
          }
          return $arr;
@@ -142,7 +143,7 @@ class IsArray {
         return $temp;
     }
 
-    public function decode_process($flag = false) {
+    public function reprocessed($flag = false) {
         $array = array();
         $keys = $this->keys;
         if($keys){
