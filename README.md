@@ -38,7 +38,8 @@ $array = [
   'name' => 'fullname'
 ];
 </pre>
-Then <pre>$obj->setKeys($array);
+<b>process</b> 
+<pre>$obj->setKeys($array);
 $obj->process($rows);
 print_r($obj->response());
 </pre>
