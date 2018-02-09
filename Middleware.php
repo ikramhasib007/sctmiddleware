@@ -24,12 +24,12 @@ abstract class Middleware {
         $this->isNull = false;
     }
 
-    public function encode($agrs, $flag = false) {
+    public function process($agrs, $flag = false) {
         $this->argumentType($agrs);
         if ($this->isArray) {
             $this->obj = new IsArray($agrs);
             $this->obj->keys($this->keys);
-            $this->response = $this->obj->encode_process($flag);
+            $this->response = $this->obj->processed($flag);
         }
 
         if ($this->isObject) {
@@ -37,12 +37,12 @@ abstract class Middleware {
         }
     }
     
-    public function decode($agrs, $flag = false) {
+    public function reprocess($agrs, $flag = false) {
         $this->argumentType($agrs);
         if ($this->isArray) {
             $this->obj = new IsArray($agrs);
             $this->obj->keys($this->keys);
-            $this->response = $this->obj->decode_process($flag);
+            $this->response = $this->obj->reprocessed($flag);
         }
 
         if ($this->isObject) {
