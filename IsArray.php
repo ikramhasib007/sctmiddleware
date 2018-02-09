@@ -106,10 +106,10 @@ class IsArray {
         if($old_key == $new_key){
             $array[$new_key] = $secondArray;
         } else {
-            if (array_key_exists($old_key, $array)) {
+//            if (array_key_exists($old_key, $array)) {
                 $array[$new_key] = $secondArray;
-                //unset($array[$old_key]);
-            }
+                unset($array[$old_key]);
+//            }
         }
         return $array;
     }
