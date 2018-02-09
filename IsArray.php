@@ -147,17 +147,39 @@ class IsArray {
         $array = array();
         $keys = $this->keys;
         if($keys){
-            $keys = array_flip($keys);
+            $tempKey = array();
+            $keyIndex = '';
+            if($this->contains_array($keys)){
+                foreach ($keys as $index => $key){
+                    if(is_array($key)){
+                        $tempKey = array_flip($key);
+                        $keyIndex = $index;
+                    }
+                }
+                error_reporting(E_ALL ^ E_WARNING);
+                $keys = array_flip($keys);
+                $keys[$keyIndex] = $tempKey;
+            } else {
+                $keys = array_flip($keys);
+            }
         }
         if (!$flag) {
             // with all index
             foreach ($this->data as $data_v) {
-                $array[] = $this->array_with_all_index($data_v, $keys);
+                if($this->contains_array($data_v)){
+                    $array[] = $this->array_with_array_indexing($data_v, $keys);
+                } else {
+                    $array[] = $this->array_with_all_index($data_v, $keys);
+                }
             }
         } else {
             // without old index
             foreach ($this->data as $data_v) {
-                $array[] = $this->array_with_new_index($data_v, $keys);
+                if($this->contains_array($data_v)){
+                    $array[] = $this->array_with_array_new_indexing($data_v, $keys);
+                } else {
+                    $array[] = $this->array_with_new_index($data_v, $keys);
+                }
             }
         }
         $this->data = $array;
