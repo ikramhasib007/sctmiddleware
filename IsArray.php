@@ -94,10 +94,11 @@ class IsArray {
         if ($old_key == $new_key) {
             $array[$new_key] = $secondArray;
         } else {
-            if (array_key_exists($old_key, $array)) {
-                $array[$new_key] = $secondArray;
-                unset($array[$old_key]);
-            }
+//            if (array_key_exists($old_key, $array)) {
+            $array = $this->replace_keys_with_array($old_key, $new_key, $array, $secondArray);
+//                $array[$new_key] = $secondArray;
+//                unset($array[$old_key]);
+//            }
         }
         return $array;
     }
@@ -155,14 +156,13 @@ class IsArray {
     }
 
     private function array_with_all_index(array $arr, $keys) {
-        $temp = array();
         if (!$keys)
             return $arr;
         foreach ($keys as $old_key => $new_key) {
             if (is_array($new_key))
                 break;
 //            if (array_key_exists($old_key, $arr)) {
-            $arr = $this->replaceKeys($old_key, $new_key, $arr);
+            $arr = $this->replace_keys($old_key, $new_key, $arr);
 ////                 $arr[$new_key] = &$arr[$old_key];
 ////                 if($old_key != $new_key)
 ////                    unset($arr[$old_key]);
@@ -237,14 +237,29 @@ class IsArray {
         return false;
     }
 
-    private function replaceKeys($oldKey, $newKey, array $input) {
+    private function replace_keys($oldKey, $newKey, array $input) {
         $return = array();
         foreach ($input as $key => $value) {
             if ($key === $oldKey)
                 $key = $newKey;
 
 //            if (is_array($value))
-//                $value = replaceKeys( $oldKey, $newKey, $value);
+//                $value = replace_keys( $oldKey, $newKey, $value);
+
+            $return[$key] = $value;
+        }
+        return $return;
+    }
+
+    private function replace_keys_with_array($oldKey, $newKey, array $input, array $replaced) {
+        $return = array();
+        foreach ($input as $key => $value) {
+            if ($key === $oldKey){
+                $key = $newKey;
+                $value = $replaced;
+            }
+//            if (is_array($value))
+//                $value = replace_keys( $oldKey, $newKey, $value);
 
             $return[$key] = $value;
         }
