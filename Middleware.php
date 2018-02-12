@@ -1,10 +1,13 @@
 <?php
 
 /**
- * data class
+ * Parent Class
+ * process request
+ * return response
+ * 
  */
-require 'IsObject.php';
-require 'IsArray.php';
+require_once 'IsObject.php';
+require_once 'IsArray.php';
 
 abstract class Middleware {
 
@@ -50,7 +53,7 @@ abstract class Middleware {
         }
     }
 
-    public function keys($keys) {
+    protected function keys($keys) {
         $this->keys = $keys;
     }
 

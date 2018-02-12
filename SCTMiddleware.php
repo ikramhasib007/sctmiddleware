@@ -5,6 +5,9 @@
  * Develop by Ikram - Ud - Daula
  * Software Developer
  * SCT-Bangla Limited
+ * ......................
+ * Instantiation class
+ * Parent function keys
  */
 require 'Middleware.php';
 
