@@ -24,36 +24,86 @@ class IsArray {
     public function processed($flag = false) {
         $array = array();
         $keys = $this->keys;
-        $array_depth = '';
+        $second_depth = '';
+        $third_depth = '';
+        $fourth_depth = '';
+        $fifth_depth = '';
+        $sixth_depth = '';
+        $seventh_depth = '';
+        $eighth_depth = '';
+        $nineth_depth = '';
+        $tenth_depth = '';
         if (!$flag) {
             //** with all index **/
             if (!$this->array_assoc_keys($this->data)) {
                 foreach ($this->data as $data_v) {
-//            echo count($this->data);
-//                echo '<pre>';
-//                print_r($this->data);
-//                echo '</pre>';
-//                exit();
-//                echo $this->array_depth($data_v);
-
-
                     if ($this->contains_array($data_v)) {
-//                    $array_depth = $this->array_depth($data_v);
-//                    foreach ($data_v as $arr_key => $value){
-//                        if(is_array($value)){
-//                            echo $arr_key;
-//                            echo '<pre>';
-//                            print_r($value);
-////                            exit();
-//                        }
-//                    }
-//                    echo $array_depth;
-//                    echo '<pre>';
-//                    print_r($data_v);
-//                    exit();
-//                    for($count = 2; $count < $array_depth; $count++){
-//                        
-//                    }
+                        $second_depth = TRUE;
+
+                        foreach ($data_v as $data_third) {
+                            
+                            if ($this->contains_array($data_third)) {
+                                $third_depth = TRUE;
+//                                echo '<pre>';
+//                                print_r($data_third);
+//                                exit();
+//                                echo '<pre>';
+//                                print_r($data_third);
+//                                exit();
+
+//                                foreach ($data_third as $data_fourth) {
+//                                    if ($this->contains_array($data_fourth)) {
+//                                        $fourth_depth = TRUE;
+//
+//                                        foreach ($data_fourth as $data_fifth) {
+//                                            if ($this->contains_array($data_fifth)) {
+//                                                $fifth_depth = TRUE;
+//
+//                                                foreach ($data_fifth as $data_sixth) {
+//                                                    if ($this->contains_array($data_sixth)) {
+//                                                        $sixth_depth = TRUE;
+//
+//                                                        foreach ($data_sixth as $data_seventh) {
+//                                                            if ($this->contains_array($data_seventh)) {
+//                                                                $seventh_depth = TRUE;
+//
+//                                                                foreach ($data_seventh as $data_eighth) {
+//                                                                    if ($this->contains_array($data_eighth)) {
+//                                                                        $eighth_depth = TRUE;
+//
+//                                                                        foreach ($data_eighth as $data_nineth) {
+//                                                                            if ($this->contains_array($data_nineth)) {
+//                                                                                $nineth_depth = TRUE;
+//
+//                                                                                foreach ($data_nineth as $data_tenth) {
+//                                                                                    if ($this->contains_array($data_tenth)) {
+//                                                                                        $tenth_depth = TRUE;
+//                                                                                        $array[] = $this->array_with_array_indexing($data_tenth, $keys);
+//                                                                                    }
+//                                                                                }
+//                                                                                $array[] = $this->array_with_array_indexing($data_nineth, $keys);
+//                                                                            }
+//                                                                        }
+//                                                                        $array[] = $this->array_with_array_indexing($data_eighth, $keys);
+//                                                                    }
+//                                                                }
+//                                                                $array[] = $this->array_with_array_indexing($data_seventh, $keys);
+//                                                            }
+//                                                        }
+//                                                        $array[] = $this->array_with_array_indexing($data_sixth, $keys);
+//                                                    } 
+//                                                }
+//                                                $array[] = $this->array_with_array_indexing($data_fifth, $keys);
+//                                            }
+//                                        }
+//                                        $array[] = $this->array_with_array_indexing($data_fourth, $keys);
+//                                    }
+//                                }
+                                $array[] = $this->array_with_array_indexing($data_third, $keys);
+                            } else {
+                                break;
+                            }
+                        }
                         $array[] = $this->array_with_array_indexing($data_v, $keys);
                     } else {
                         $array[] = $this->array_with_all_index($data_v, $keys);
@@ -90,6 +140,14 @@ class IsArray {
         return $this->data;
     }
 
+    private function depth_array_processing_with_all_index(array $arr, $keys) {
+        
+    }
+
+    private function depth_array_processing_with_new_index(array $arr, $keys) {
+        
+    }
+
     private function array_with_array_indexing(array $arr, $keys) {
         $depthKey = '';
         $depthArray = '';
@@ -101,20 +159,24 @@ class IsArray {
 //        echo '<pre>';
 //        print_r($array);
 //        exit();
-        foreach ($arr as $o_key => $a) {
-            if (is_array($a)) {
-                if (array_key_exists(0, $a)) {
-                    //** indexed array **/
-                    $indexedArray = TRUE;
-                    $numberOfIndexedArray = count($a);
-                    $depthArray = $a;
-                } else {
-                    //** not index array. it's direct array **/
-                    $depthArray = $a;
+        $keys_depth = $this->array_depth($keys);
+//        if($keys_depth==2){
+            foreach ($arr as $o_key => $a) {
+                if (is_array($a)) {
+                    if (!$this->array_assoc_keys($a)) {
+                        //** indexed array **/
+                        $indexedArray = TRUE;
+                        $numberOfIndexedArray = count($a);
+                        $depthArray = $a;
+                    } else {
+                        //** not index array. it's direct array **/
+                        $depthArray = $a;
+                    }
+                    $old_key = $o_key;
                 }
-                $old_key = $o_key;
             }
-        }
+//        }
+        
         if ($this->contains_array($keys)) {
             foreach ($keys as $n_key => $k) {
                 if (is_array($k)) {
@@ -138,11 +200,7 @@ class IsArray {
         if ($old_key == $new_key) {
             $array[$new_key] = $secondArray;
         } else {
-//            if (array_key_exists($old_key, $array)) {
             $array = $this->replace_keys_with_array($old_key, $new_key, $array, $secondArray);
-//                $array[$new_key] = $secondArray;
-//                unset($array[$old_key]);
-//            }
         }
         return $array;
     }
@@ -157,7 +215,7 @@ class IsArray {
         $array = $this->array_with_new_index($arr, $keys);
         foreach ($arr as $o_key => $a) {
             if (is_array($a)) {
-                if (array_key_exists(0, $a)) {
+                if (!$this->array_assoc_keys($a)) {
                     //** indexed array **/
                     $indexedArray = TRUE;
                     $numberOfIndexedArray = count($a);
@@ -273,6 +331,8 @@ class IsArray {
     }
 
     private function contains_array($array) {
+        if (is_string($array))
+            return FALSE;
         foreach ($array as $value) {
             if (is_array($value)) {
                 return true;
@@ -322,7 +382,7 @@ class IsArray {
         }
         return $max_depth;
     }
-    
+
     private function array_assoc_keys(array $array) {
         return count(array_filter(array_keys($array), 'is_string')) > 0;
     }

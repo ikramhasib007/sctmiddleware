@@ -19,8 +19,6 @@ abstract class Middleware {
     protected $obj;
     protected $flag;
 
-    //protected $response;
-
     public function __construct() {
         $this->isArray = false;
         $this->isObject = false;
