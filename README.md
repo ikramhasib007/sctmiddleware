@@ -80,3 +80,9 @@ $rows = array(
   )
 );
 </pre>
+<p>
+<b>process and reprocess function:</b>
+It’s contained two parameter. Second parameter by default <b>false</b>. 
+If you send it <b>true</b> then process function return only changed index array otherwise it’s return all of index array. 
+Similar action for <b>reprocess</b> function. 
+</p>
